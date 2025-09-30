@@ -1,0 +1,89 @@
+// {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Publicar Reto</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'imagen.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        .form-container {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 60px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label { display: block; margin-top: 15px; }
+        input, textarea, select {
+            width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px; padding: 10px 20px; background: #367730; color: #fff; border: none; border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background: #002925; }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+        .messages .success { color: green; }
+        .messages .error { color: red; }
+        .messages .warning { color: orange; }
+        .messages .info { color: blue; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Publicar Acertijo o Problema</h2>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="re_nombre">Título del reto</label>
+            <input type="text" id="re_nombre" name="re_nombre" required>
+
+            <label for="re_descripcion">Descripción</label>
+            <textarea id="re_descripcion" name="re_descripcion" rows="4" required></textarea>
+
+            <label for="respuesta_reto">Respuesta correcta</label>
+            <input type="text" id="respuesta_reto" name="respuesta_reto" required>
+
+            <label for="re_dificultad">Dificultad</label>
+            <select id="re_dificultad" name="re_dificultad" required>
+                {% for dificultad in dificultades %}
+                    <option value="{{ dificultad.id_dificultad }}">{{ dificultad.di_nombre }} ({{ dificultad.puntaje }} pts)</option>
+                {% endfor %}
+            </select>
+
+            <label for="re_categoria">Categoría (Opcional)</label>
+            <select id="re_categoria" name="re_categoria">
+                <option value="">-- Selecciona una categoría --</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id_categoria }}">{{ categoria.ca_nombre }}</option>
+                    
+                {% endfor %}
+            </select>
+
+           
+
+            <label for="intentos">Intentos permitidos</label>
+            <input type="number" id="intentos" name="intentos" value="3" min="1" required>
+
+            <button type="submit">Publicar</button>
+        </form>
+    </div>
+</body>
+</html>

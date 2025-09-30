@@ -1,0 +1,220 @@
+{% load static %}
+{% load diccionario_extras %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acertijos</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'imagen.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .usuario {
+            font-size: 1em;
+            color: #fff;
+            background: rgba(0,0,0,0.85);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            border: 2px solid #1a3c1a;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .acertijo-titulo {
+            font-size: 2em;
+            color: #fff;
+            background: rgba(0,0,0,0.85);
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 8px #367730, 0 0 2px #000;
+            letter-spacing: 2px;
+            border: 2px solid #1a3c1a;
+            border-radius: 8px;
+            padding: 10px 24px;
+            display: inline-block;
+        }
+        .acertijo-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .acertijo-box {
+            background: rgba(255,255,255,0.97);
+            border: 2px solid #367730;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 22px 18px;
+            text-align: left;
+            position: relative;
+        }
+        .acertijo-box h3 {
+            margin-top: 0;
+            color: #367730;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        .acertijo-box p {
+            margin-bottom: 10px;
+        }
+        .acertijo-box .dificultad {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .respuesta-barra {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-start;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 8px 16px;
+            background: #367730;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background: #002925; }
+        .mensaje {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correcto { color: green; }
+        .incorrecto { color: red; }
+        .no-acertijos {
+            background: rgba(255,255,255,0.85);
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            color: #367730;
+            font-size: 1.2em;
+            margin-top: 30px;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 15px;
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+        .messages li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .messages .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .messages .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .messages .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .messages .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .delete-button {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="acertijo-container" id="main-container">
+        <div style="text-align:center;">
+            <div class="acertijo-titulo">Acertijos</div>
+        </div>
+        {% if usuario and usuario.is_authenticated %}
+            <div class="usuario">USUARIO: {{ usuario.us_nombre }} ({{ usuario.username }}) - Puntos: {{ usuario.puntaje_total }}</div>
+        {% else %}
+            <div class="usuario">Inicia sesión para ver y responder acertijos.</div>
+        {% endif %}
+
+        {% if retos %}
+            <div class="acertijo-lista">
+                {% for reto in retos %}
+                    <div class="acertijo-box">
+                        <h3>{{ reto.re_nombre }}</h3>
+                        <p>{{ reto.re_descripcion }}</p>
+                        <div class="dificultad"><strong>Dificultad:</strong> {{ reto.re_dificultad.di_nombre }} ({{ reto.re_dificultad.puntaje }} pts)</div>
+                        <div class="categoria"><strong>Categoría:</strong> {{ reto.re_categoria.ca_nombre|default:"Sin categoría" }}</div>
+
+                        {% with respuestas=respuestas_usuario|dict_get:reto.id_reto %}
+                            {% if respuestas %}
+                                {% with intentos_realizados=respuestas|length %}
+                                    {% if respuestas.0.respuesta_correcta %}
+                                        <p style="color: green; font-weight: bold;">¡Ya has resuelto este reto!</p>
+                                        <p>Intentos realizados: {{ intentos_realizados }}</p>
+                                    {% elif intentos_realizados >= reto.intentos %}
+                                        <p style="color: red; font-weight: bold;">Has agotado tus intentos para este reto.</p>
+                                    {% else %}
+                                        <p>Intentos realizados: {{ intentos_realizados }} / {{ reto.intentos }}</p>
+                                        <form class="respuesta-barra" action="{% url 'responder_reto' reto.id_reto %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" name="respuesta" placeholder="Escribe tu respuesta aquí..." required>
+                                            <button type="submit">Responder</button>
+                                        </form>
+                                    {% endif %}
+                                {% endwith %}
+                            {% else %}
+                                <p>Intentos restantes: {{ reto.intentos }}</p>
+                                {% if usuario and usuario.is_authenticated %}
+                                    <form class="respuesta-barra" action="{% url 'responder_reto' reto.id_reto %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" name="respuesta" placeholder="Escribe tu respuesta aquí..." required>
+                                        <button type="submit">Responder</button>
+                                    </form>
+                                {% else %}
+                                    <p>Inicia sesión para responder.</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endwith %}
+
+                        {% if usuario %}
+                            {% if usuario.is_superuser or usuario == reto.re_usuario %}
+                                <form action="{% url 'eliminar_reto' reto.id_reto %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-button" onclick="return confirm('¿Estás seguro de que quieres eliminar este reto?');">Eliminar Reto</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-acertijos">No hay acertijos disponibles o necesitas iniciar sesión.</div>
+        {% endif %}
+    </div>
+</body>
+</html>
