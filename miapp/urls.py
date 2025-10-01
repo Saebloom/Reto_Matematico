@@ -1,4 +1,4 @@
-# miapp/urls.py
+# miapp/urls.py 
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views # Importar vistas de autenticación de Django
