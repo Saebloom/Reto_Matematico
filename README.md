@@ -14,8 +14,8 @@ Este proyecto es una plataforma web educativa para la publicación y resolución
 ## Instalación
 
 1. Clonar el repositorio:
-git clone https://github.com/tu_usuario/tu_repositorio.git
-cd tu_repositorio
+git clone [https://github.com/Saebloom/Proyecto_NUAM_TIHI43_V.git]
+cd Proyecto_NUAM_TIHI43
 
 2. Crear entorno virtual:
 python -m venv venv
