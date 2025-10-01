@@ -15,7 +15,7 @@ def index(request):
 
 
 
-def register(request):
+def registro(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -27,7 +27,7 @@ def register(request):
             messages.error(request, "Error en el registro. Por favor, corrige los errores.")
     else:
         form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'registro.html', {'form': form})
 
 # Modificar la vista 'publicar_reto' para usar los modelos de Django
 @login_required
@@ -45,7 +45,7 @@ def publicar_reto(request):
             categoria = None
             if categoria_id:
                 categoria = Categoria.objects.get(id_categoria=categoria_id)
-            nuevo_reto = Reto.objects.create(
+                nuevo_reto = Reto.objects.create(
                 re_nombre=re_nombre,
                 re_descripcion=re_descripcion,
                 respuesta_reto=respuesta_reto,

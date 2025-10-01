@@ -12,7 +12,7 @@ urlpatterns = [
     path('eliminar_reto/<int:id_reto>/', views.eliminar_reto, name='eliminar_reto'),
 
     # URLs de autenticación
-    path('register/', views.register, name='register'),
+    path('register/', views.registro, name='registro'),
     path('login/', views.user_login, name='login'), # Usamos nuestra vista personalizada
     path('logout/', views.user_logout, name='logout'), # Usamos nuestra vista personalizada
 ]
