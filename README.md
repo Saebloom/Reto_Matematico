@@ -14,13 +14,12 @@ Este proyecto es una plataforma web educativa para la publicación y resolución
 ## Instalación
 
 1. Clonar el repositorio:
-- git clone [https://github.com/Saebloom/Proyecto_NUAM_TIHI43_V.git]
+- git clone https://github.com/Saebloom/Proyecto_NUAM_TIHI43_V.git
 - cd Proyecto_NUAM_TIHI43
 
 2. Crear entorno virtual:
-- python -m venv venv
-- venv\Scripts\activate   # Windows
-- source venv/bin/activate  # Linux / macOS
+- python -m venv environment
+- source environment/bin/activate  # Linux
 
 3. Instalar dependencias:
 pip install -r requirements.txt
@@ -30,7 +29,10 @@ pip install -r requirements.txt
 - python manage.py migrate
 
 5. Crear superusuario:
-python manage.py createsuperuser
+- python manage.py createsuperuser
+- Crear nombre de superusuario: ""
+- correo electronico super usuario: ""
+- Crear contraseña: ""
 
 6. Ejecutar servidor de desarrollo:
 - python manage.py runserver
