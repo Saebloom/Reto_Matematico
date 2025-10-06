@@ -18,7 +18,7 @@ Este proyecto es una plataforma web educativa para la publicación y resolución
 - cd Proyecto_NUAM_TIHI43
 
 2. Crear entorno virtual:
-- python -m venv environment
+- python3 -m venv environment
 - source environment/bin/activate  # Linux
 
 3. Instalar dependencias:
