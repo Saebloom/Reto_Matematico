@@ -1,3 +1,9 @@
+# Integrantes
+Valeska Aguirre
+Bastián Cabello
+Nicolás Espejo
+Andrés González
+
 # Plataforma de Retos Lógicos y Matemáticos
 
 ## Descripción
