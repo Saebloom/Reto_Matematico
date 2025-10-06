@@ -5,7 +5,7 @@ from .models import Usuario, Categoria, Dificultad, Reto, Respuesta, HistorialPu
 # Personalización del admin de Usuario
 class UsuarioAdmin(UserAdmin):
     model = Usuario
-    list_display = ('username', 'us_nombre', 'email', 'is_staff', 'is_superuser', 'puntaje_total')
+    list_display = ('id', 'username', 'us_nombre', 'email', 'is_staff', 'is_superuser', 'puntaje_total')
     search_fields = ('username', 'us_nombre', 'email')
     ordering = ('username',)
 
