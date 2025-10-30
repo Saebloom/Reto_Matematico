@@ -1,25 +1,37 @@
 # Entorno virtual
-environment/
+test/
 venv/
+env/
 
-# Archivos de Python compilados
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Base de datos local 
+# Base de datos local
 db.sqlite3
 
-# Migraciones
-miapp/migrations/
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Archivos de configuración del editor/IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Archivos temporales
+# Logs
 *.log
+
+# Variables de entorno
+*.env
+.env
+
+# Sistema / editores
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
+*.code-workspace
+
+# Distribución / build
+*.egg-info/
+build/
+dist/
+
+# pytest / coverage
+.coverage
+htmlcov/
+pytest_cache/
