@@ -4,6 +4,11 @@ Bastián Cabello
 Nicolás Espejo
 Andrés González
 
+Antes de comenzar, asegúrate de tener instalado:
+Python 3.12 o superior
+Git
+Navegador web (Chrome, Firefox, Edge)
+
 # Plataforma de Retos Lógicos y Matemáticos
 
 ## Descripción
