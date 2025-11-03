@@ -25,8 +25,8 @@ Este proyecto es una plataforma web educativa para la publicación y resolución
 ## Instalación
 
 1. Clonar el repositorio:
-- git clone https://github.com/Saebloom/Proyecto_NUAM_TIHI43_V.git
-- cd Proyecto_NUAM_TIHI43_V
+- git clone https://github.com/Saebloom/Reto_Matematico.git
+- cd Reto_Matematico
 
 2. Crear entorno virtual:
 - python3 -m venv environment
